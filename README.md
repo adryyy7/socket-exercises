@@ -103,7 +103,7 @@ python exercise_1/udp_client.py
 # Terminale 1
 python exercise_2/tcp_server.py
 
-# Terminale 2 — usa il client dell'esercizio 0
+# Terminale 2 - usa il client dell'esercizio 0
 python exercise_0/tcp_client.py
 ```
 Il server accetta fino a 5 client in sequenza. Avvia più volte il client
