@@ -71,7 +71,7 @@ che lo spiega.
 Ogni esercizio richiede **due terminali aperti contemporaneamente**: uno
 per il server e uno per il client. Avviare sempre prima il server.
 
-### Exercise 0 — TCP
+### Exercise 0 - TCP
 ```bash
 # Terminale 1
 python exercise_0/tcp_server.py
@@ -80,7 +80,7 @@ python exercise_0/tcp_server.py
 python exercise_0/tcp_client.py
 ```
 
-### Exercise 0 — UDP
+### Exercise 0 - UDP
 ```bash
 # Terminale 1
 python exercise_0/udp_server.py
@@ -132,7 +132,7 @@ python exercise_4/spesa_client.py
 
 ---
 
-## TCP vs UDP — differenze principali
+## TCP vs UDP - differenze principali
 
 Questa tabella riassume ciò che il codice rende concreto.
 
