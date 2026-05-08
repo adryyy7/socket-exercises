@@ -139,7 +139,7 @@ Questa tabella riassume ciò che il codice rende concreto.
 | | TCP (`SOCK_STREAM`) | UDP (`SOCK_DGRAM`) |
 |---|---|---|
 | Connessione | Three-way handshake obbligatorio | Nessuna — fire and forget |
-| Setup server | `bind` -> `listen` → `accept` | Solo `bind` |
+| Setup server | `bind` → `listen` → `accept` | Solo `bind` |
 | Setup client | `connect` | Nessuno |
 | Invio | `sendall(data)` | `sendto(data, indirizzo)` |
 | Ricezione | `recv(n)` | `recvfrom(n)` → restituisce dati + indirizzo mittente |
