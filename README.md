@@ -1,11 +1,9 @@
-# Esercizi di Programmazione Socket — Python TCP & UDP
+# Esercizi di Programmazione Socket - Python TCP & UDP
 
 Soluzioni agli esercizi di programmazione socket basati sul repository
 [IsidurPaine/Socket](https://github.com/IsidurPaine/Socket).
 
-**Autore:** [Il tuo nome]
-**Classe:** 5° anno
-**Data:** Maggio 2026
+**Autore:** Adriano Mizzi
 
 ---
 
@@ -51,7 +49,7 @@ che lo spiega.
 | `exercise_0/tcp_client.py` | TCP | Client originale riscritto con le funzioni |
 | `exercise_0/udp_server.py` | UDP | Server originale riscritto con le funzioni |
 | `exercise_0/udp_client.py` | UDP | Client originale riscritto con le funzioni |
-| `exercise_1/udp_server.py` | UDP | Server con contatore PING — risponde `PONG #N` |
+| `exercise_1/udp_server.py` | UDP | Server con contatore PING - risponde `PONG #N` |
 | `exercise_1/udp_client.py` | UDP | Client che stampa la stringa di risposta completa |
 | `exercise_2/tcp_server.py` | TCP | Server che accetta più client in sequenza |
 | `exercise_3/udp_server.py` | UDP | Server che scarta casualmente le risposte |
@@ -141,11 +139,11 @@ Questa tabella riassume ciò che il codice rende concreto.
 | | TCP (`SOCK_STREAM`) | UDP (`SOCK_DGRAM`) |
 |---|---|---|
 | Connessione | Three-way handshake obbligatorio | Nessuna — fire and forget |
-| Setup server | `bind` → `listen` → `accept` | Solo `bind` |
+| Setup server | `bind` -> `listen` → `accept` | Solo `bind` |
 | Setup client | `connect` | Nessuno |
 | Invio | `sendall(data)` | `sendto(data, indirizzo)` |
 | Ricezione | `recv(n)` | `recvfrom(n)` → restituisce dati + indirizzo mittente |
-| Garanzia consegna | Sì — TCP ritrasmette i pacchetti persi | No — i datagrammi possono perdersi o arrivare fuori ordine |
+| Garanzia consegna | Sì - TCP ritrasmette i pacchetti persi | No - i datagrammi possono perdersi o arrivare fuori ordine |
 | Chiusura | `close()` invia FIN/ACK | `close()` rilascia solo il file descriptor locale |
 | Casi d'uso tipici | HTTP, SSH, database | DNS, streaming video, giochi online |
 
