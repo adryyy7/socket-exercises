@@ -1,92 +1,77 @@
-# Socket Exercises — Python TCP & UDP
+# Esercizi di Programmazione Socket — Python TCP & UDP
 
-Esercizi di programmazione socket in Python, basati sul repository
+Soluzioni agli esercizi di programmazione socket basati sul repository
 [IsidurPaine/Socket](https://github.com/IsidurPaine/Socket).
 
-**Autore:** Adriano Mizzi  
+**Autore:** [Il tuo nome]
+**Classe:** 5° anno
+**Data:** Maggio 2026
 
 ---
 
 ## Struttura della repository
-socket-exercises/
-│
-├── README.md
-│
-├── original_code/
-│   ├── tcp_server.py
-│   ├── tcp_client.py
-│   ├── udp_server.py
-│   └── udp_client.py
-│
-├── exercise_0/
-│   ├── tcp_server.py
-│   ├── tcp_client.py
-│   ├── udp_server.py
-│   ├── udp_client.py
-│   └── doc_exercise_0.md
-│
-├── exercise_1/
-│   ├── udp_server.py
-│   ├── udp_client.py
-│   └── doc_exercise_1.md
-│
-├── exercise_2/
-│   ├── tcp_server.py
-│   └── doc_exercise_2.md
-│
-├── exercise_3/
-│   ├── udp_server.py
-│   ├── udp_client.py
-│   └── doc_exercise_3.md
-│
-└── exercise_4/
-├── spesa_server.py
-├── spesa_client.py
-└── doc_exercise_4.md
+
+| Cartella | Contenuto |
+|---|---|
+| `original_code/` | File originali del repository di base, non modificati |
+| `exercise_0/` | Refactoring: tutti e quattro i file riscritti con le funzioni |
+| `exercise_1/` | Server UDP esteso con contatore messaggi |
+| `exercise_2/` | Server TCP modificato per gestire più client |
+| `exercise_3/` | Server UDP con simulazione perdita pacchetti |
+| `exercise_4/` | Protocollo custom: lista della spesa condivisa via TCP |
 
 ---
 
-## Descrizione degli esercizi
+## Diagrammi
 
-### Exercise 0 — Refactoring con le funzioni
-Il codice originale è stato riscritto suddividendo la logica in funzioni
-con un compito solo ciascuna. Sono stati modificati tutti e quattro i file
-originali (TCP server, TCP client, UDP server, UDP client).
-Ogni modifica è spiegata nel documento tecnico.
+Il repository originale include dei diagrammi che spiegano visivamente
+come funzionano TCP e UDP internamente. Sono mantenuti in `original_code/`
+insieme ai file sorgente originali e rimangono utili come riferimento
+mentre si leggono le soluzioni degli esercizi.
 
-### Exercise 1 — Contatore messaggi UDP
-Il server UDP è stato esteso per tenere un conteggio di quanti PING ha
-ricevuto. Ogni risposta PONG include il numero, ad esempio `"PONG #3"`.
-Il client stampa la stringa di risposta completa per rendere il contatore
-visibile.
+Il diagramma del flusso TCP mostra la sequenza completa da `bind()`
+attraverso `accept()` fino alla chiusura con `close()` e FIN teardown.
+Il diagramma UDP evidenzia l'assenza dell'handshake e illustra perché
+`recvfrom()` deve restituire l'indirizzo del mittente. Il diagramma
+comparativo TCP vs UDP mette entrambi i modelli sulla stessa tavola
+in modo che le differenze strutturali siano immediatamente visibili.
 
-### Exercise 2 — Server TCP multi-client
-Il server TCP è stato modificato per servire più client uno dopo l'altro
-(versione sequenziale). Usa un flag `server_running` e una costante
-`MAX_CLIENTS` per fermarsi in modo pulito.
-Come bonus, il codice per gestire più client contemporaneamente con
-`threading` è incluso nel file come commento, pronto da attivare.
+Usa i diagrammi come riferimento mentre studi il codice, non come
+sostituto della lettura di esso. Ogni dettaglio mostrato visivamente
+ha una riga corrispondente nel codice sorgente con un commento
+che lo spiega.
 
-### Exercise 3 — Simulazione canale inaffidabile
-Il server UDP simula la perdita di pacchetti tramite la costante
-`DROP_PROBABILITY`. Prima di ogni risposta viene estratto un numero
-casuale: se è sotto la soglia, la risposta viene scartata e viene
-stampato `"[Server] Dropped reply (simulated loss)"`.
-Il client gestisce il timeout senza crashare e mostra le statistiche
-finali di pacchetti ricevuti e persi.
+---
 
-### Exercise 4 — Protocollo custom: lista della spesa
-Implementazione di una lista della spesa condivisa via socket TCP.
-Il client può inviare tre comandi: `AGGIUNGI <prodotto>`, `RIMUOVI <prodotto>`
-e `MOSTRA`. Il server mantiene la lista in memoria e risponde ad ogni
-comando con una conferma o un messaggio di errore.
+## File
+
+| File | Protocollo | Ruolo |
+|---|---|---|
+| `exercise_0/tcp_server.py` | TCP | Server originale riscritto con le funzioni |
+| `exercise_0/tcp_client.py` | TCP | Client originale riscritto con le funzioni |
+| `exercise_0/udp_server.py` | UDP | Server originale riscritto con le funzioni |
+| `exercise_0/udp_client.py` | UDP | Client originale riscritto con le funzioni |
+| `exercise_1/udp_server.py` | UDP | Server con contatore PING — risponde `PONG #N` |
+| `exercise_1/udp_client.py` | UDP | Client che stampa la stringa di risposta completa |
+| `exercise_2/tcp_server.py` | TCP | Server che accetta più client in sequenza |
+| `exercise_3/udp_server.py` | UDP | Server che scarta casualmente le risposte |
+| `exercise_3/udp_client.py` | UDP | Client che gestisce i timeout senza crashare |
+| `exercise_4/spesa_server.py` | TCP | Server lista della spesa: AGGIUNGI, RIMUOVI, MOSTRA |
+| `exercise_4/spesa_client.py` | TCP | Client interattivo per la lista della spesa |
+
+---
+
+## Requisiti
+
+- Python 3.6 o superiore
+- Nessun pacchetto esterno — solo la libreria standard (`socket`, `time`, `random`, `threading`)
 
 ---
 
 ## Come eseguire
 
-Ogni esercizio richiede **due terminali aperti contemporaneamente**.
-Avviare sempre prima il server.
+Ogni esercizio richiede **due terminali aperti contemporaneamente**: uno
+per il server e uno per il client. Avviare sempre prima il server.
 
 ### Exercise 0 — TCP
 ```bash
@@ -122,9 +107,9 @@ python exercise_2/tcp_server.py
 
 # Terminale 2 — usa il client dell'esercizio 0
 python exercise_0/tcp_client.py
-
-# Apri altri terminali per testare più client in sequenza
 ```
+Il server accetta fino a 5 client in sequenza. Avvia più volte il client
+in terminali separati per testare il comportamento multi-client.
 
 ### Exercise 3
 ```bash
@@ -134,6 +119,9 @@ python exercise_3/udp_server.py
 # Terminale 2
 python exercise_3/udp_client.py
 ```
+Il server scarta circa il 30% delle risposte. Osserva come il meccanismo
+di timeout del client diventa essenziale una volta introdotta la perdita
+di pacchetti.
 
 ### Exercise 4
 ```bash
@@ -146,25 +134,48 @@ python exercise_4/spesa_client.py
 
 ---
 
-## Comandi disponibili — Exercise 4
+## TCP vs UDP — differenze principali
 
-| Comando | Esempio | Effetto |
+Questa tabella riassume ciò che il codice rende concreto.
+
+| | TCP (`SOCK_STREAM`) | UDP (`SOCK_DGRAM`) |
 |---|---|---|
-| `AGGIUNGI <prodotto>` | `AGGIUNGI latte` | Aggiunge il prodotto alla lista |
-| `RIMUOVI <prodotto>` | `RIMUOVI latte` | Rimuove il prodotto dalla lista |
-| `MOSTRA` | `MOSTRA` | Mostra tutti i prodotti nella lista |
-| `QUIT` | `QUIT` | Chiude la connessione |
+| Connessione | Three-way handshake obbligatorio | Nessuna — fire and forget |
+| Setup server | `bind` → `listen` → `accept` | Solo `bind` |
+| Setup client | `connect` | Nessuno |
+| Invio | `sendall(data)` | `sendto(data, indirizzo)` |
+| Ricezione | `recv(n)` | `recvfrom(n)` → restituisce dati + indirizzo mittente |
+| Garanzia consegna | Sì — TCP ritrasmette i pacchetti persi | No — i datagrammi possono perdersi o arrivare fuori ordine |
+| Chiusura | `close()` invia FIN/ACK | `close()` rilascia solo il file descriptor locale |
+| Casi d'uso tipici | HTTP, SSH, database | DNS, streaming video, giochi online |
+
+### Perché `recvfrom` invece di `recv`?
+
+In UDP non esiste una connessione persistente, quindi il socket non
+ricorda chi ha inviato l'ultimo datagramma. `recvfrom()` risolve questo
+problema restituendo l'indirizzo del mittente insieme ai dati. Il server
+passa poi quell'indirizzo a `sendto()` per sapere dove inviare la risposta.
+
+### Perché `settimeout` nel client UDP?
+
+TCP garantisce la consegna, quindi `recv()` ritorna solo quando i dati
+sono arrivati. UDP non offre questa garanzia: un datagramma può perdersi
+silenziosamente. Senza un timeout, `recvfrom()` si bloccherebbe per sempre
+se il server non è raggiungibile o il pacchetto viene scartato. Il timeout
+di due secondi trasforma un blocco infinito in un'eccezione gestibile
+`socket.timeout`.
 
 ---
 
-## Requisiti
+## Documentazione tecnica
 
-- Python 3.6 o superiore
-- Nessun pacchetto esterno (solo libreria standard)
+Ogni cartella contiene un documento tecnico in italiano che spiega
+nel dettaglio tutte le modifiche apportate al codice:
 
----
-
-## Riferimenti
-
-- Repository originale: [IsidurPaine/Socket](https://github.com/IsidurPaine/Socket)
-- Documentazione Python socket: [docs.python.org/3/library/socket.html](https://docs.python.org/3/library/socket.html)
+| File | Contenuto |
+|---|---|
+| `exercise_0/doc_exercise_0.md` | Spiegazione del refactoring con le funzioni |
+| `exercise_1/doc_exercise_1.md` | Spiegazione del contatore e risposta alle domande dell'esercizio |
+| `exercise_2/doc_exercise_2.md` | Spiegazione del loop multi-client e del bonus threading |
+| `exercise_3/doc_exercise_3.md` | Spiegazione della simulazione perdita pacchetti |
+| `exercise_4/doc_exercise_4.md` | Descrizione del protocollo custom progettato da zero |
