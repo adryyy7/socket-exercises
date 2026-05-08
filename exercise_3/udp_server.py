@@ -1,30 +1,20 @@
 """
-UDP Server - Simulazione canale inaffidabile (Esercizio 3)
+UDP Client - Gestione timeout su canale inaffidabile (Esercizio 3)
 
-Estende il server UDP dell'esercizio 0 simulando la perdita di pacchetti.
-Prima di ogni risposta viene estratto un numero casuale: se e' inferiore
-a DROP_PROBABILITY la risposta viene scartata e viene stampato un messaggio.
+Aggiorna il client UDP dell'esercizio 0 per gestire i timeout in modo
+significativo quando il server scarta le risposte e per continuare
+al ping successivo invece di crashare.
 
-Autore   : [Il tuo nome]
-Data     : Maggio 2026
-Versione : 1.0
-
-Modifiche rispetto all'esercizio 0:
-    - Aggiunta la costante DROP_PROBABILITY (0.3 = 30% di perdita)
-    - Aggiunto import random
-    - Prima di ogni sendto() viene estratto un numero casuale
-    - Se il numero e' sotto la soglia, la risposta viene scartata
-
-Nota: avviare udp_server.py in un terminale prima di avviare udp_client.py
+Nota: avviare udp_server.py in un terminale prima di avviare questo client
 in un altro terminale.
 """
 
-import socket   # modulo della libreria standard per la programmazione di rete
-import random   # modulo della libreria standard per la generazione di numeri casuali
+import socket  
+import random  
 
 
-HOST             = "127.0.0.1"
-PORT             = 65433
+HOST = "127.0.0.1"
+PORT = 65433
 DROP_PROBABILITY = 0.3   # probabilita' di perdere una risposta (0.3 = 30%)
 
 
@@ -54,13 +44,7 @@ def servi_sempre(sock):
 
         risposta = scegli_risposta(messaggio)
 
-        # Simulazione perdita pacchetto:
-        # random.random() genera un numero decimale casuale tra 0.0 e 1.0.
-        # Se e' inferiore a DROP_PROBABILITY (0.3), circa il 30% delle volte,
-        # scarto la risposta senza chiamare sendto().
         if random.random() < DROP_PROBABILITY:
-            # Non invio la risposta: il client non ricevera' nulla
-            # e andra' in timeout dopo 2 secondi.
             print("[Server] Dropped reply (simulated loss)")
         else:
             sock.sendto(risposta.encode("utf-8"), indirizzo_client)

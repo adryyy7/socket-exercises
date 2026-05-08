@@ -34,11 +34,6 @@ Il diagramma UDP evidenzia l'assenza dell'handshake e illustra perché
 comparativo TCP vs UDP mette entrambi i modelli sulla stessa tavola
 in modo che le differenze strutturali siano immediatamente visibili.
 
-Usa i diagrammi come riferimento mentre studi il codice, non come
-sostituto della lettura di esso. Ogni dettaglio mostrato visivamente
-ha una riga corrispondente nel codice sorgente con un commento
-che lo spiega.
-
 ---
 
 ## File

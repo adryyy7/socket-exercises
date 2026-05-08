@@ -1,45 +1,33 @@
 """
-Lista della Spesa Server - TCP (Esercizio 4)
+Lista della Spesa Client - TCP (Esercizio 4)
 
 Protocollo: TCP
-Motivo: ogni comando del client modifica una lista sul server e il client
-deve sempre ricevere una conferma. Con UDP un comando potrebbe perdersi
-silenziosamente e il client non saprebbe mai se il prodotto e' stato
-aggiunto o no. TCP garantisce la consegna in entrambe le direzioni.
+Motivo: ogni comando modifica una lista sul server e il client deve sempre
+ricevere una conferma. Con UDP un comando potrebbe perdersi silenziosamente
+e il client non saprebbe mai se il prodotto e' stato aggiunto o no.
+TCP garantisce la consegna in entrambe le direzioni.
 
 Formato dei messaggi: testo semplice
-    Client invia:    "AGGIUNGI latte"
-    Server risponde: "OK: 'latte' aggiunto alla lista"
-    Client invia:    "RIMUOVI latte"
-    Server risponde: "OK: 'latte' rimosso dalla lista"
-    Client invia:    "MOSTRA"
-    Server risponde: "Lista: latte, pane, uova"   oppure   "Lista vuota"
-    Client invia:    "ciao"  (comando non valido)
-    Server risponde: "ERRORE: comando non riconosciuto. Usa: AGGIUNGI, RIMUOVI, MOSTRA, QUIT"
-    Client invia:    "QUIT"
-    Server risponde: "CIAO" e chiude la connessione
+    Client invia:    "AGGIUNGI latte"   Server risponde: "OK: 'latte' aggiunto"
+    Client invia:    "RIMUOVI latte"    Server risponde: "OK: 'latte' rimosso"
+    Client invia:    "MOSTRA"           Server risponde: "Lista: latte, pane"
+    Client invia:    "QUIT"             Server risponde: "CIAO"
 
-Messaggio non valido: se il comando non e' AGGIUNGI, RIMUOVI, MOSTRA o QUIT,
-il server risponde con un messaggio di errore che spiega i comandi disponibili
-e continua a girare senza crashare.
+Messaggio non valido: il server risponde con un messaggio di errore che
+spiega i comandi disponibili. La sessione continua normalmente.
 
-Terminazione: il client invia "QUIT". Il server risponde "CIAO" e chiude la
-connessione con quel client. E' sempre il client a iniziare la terminazione.
-Il server rimane poi in ascolto per altri client.
+Terminazione: il client invia "QUIT". Il server risponde "CIAO" e chiude
+la connessione. E' sempre il client a iniziare la terminazione.
 
-Autore   : [Il tuo nome]
-Data     : Maggio 2026
-Versione : 1.0
-
-Nota: avviare spesa_server.py in un terminale prima di avviare spesa_client.py
+Nota: avviare spesa_server.py in un terminale prima di avviare questo client
 in un altro terminale.
 """
 
-import socket   # modulo della libreria standard per la programmazione di rete
+import socket 
 
 
-HOST        = "127.0.0.1"
-PORT        = 65436
+HOST = "127.0.0.1"
+PORT = 65436
 MAX_CLIENTS = 10   # il server si ferma dopo aver servito questo numero di client
 
 
@@ -61,14 +49,11 @@ def elabora_comando(messaggio, lista_spesa):
         AGGIUNGI prodotto  = aggiunge il prodotto alla lista
         RIMUOVI  prodotto  = rimuove il prodotto dalla lista
         MOSTRA             = mostra tutti i prodotti nella lista
-        QUIT               = chiude la connessione (gestito fuori da qui)
+        QUIT               = chiude la connessione 
 
     Restituisce la risposta da inviare al client.
     """
 
-    # Divido il messaggio in parti: la prima e' il comando, il resto e' il prodotto.
-    # Il parametro 1 limita la divisione a un solo taglio.
-    # Esempio: "AGGIUNGI latte fresco" diventa ["AGGIUNGI", "latte fresco"]
     parti   = messaggio.strip().split(" ", 1)
     comando = parti[0].upper()
 
@@ -82,7 +67,7 @@ def elabora_comando(messaggio, lista_spesa):
         prodotto = parti[1].strip().lower()
 
         if prodotto in lista_spesa:
-            return f"'{prodotto}' e' gia' nella lista"
+            return f"'{prodotto}' è già nella lista"
 
         lista_spesa.append(prodotto)
         return f"OK: '{prodotto}' aggiunto alla lista"
@@ -95,7 +80,7 @@ def elabora_comando(messaggio, lista_spesa):
         prodotto = parti[1].strip().lower()
 
         if prodotto not in lista_spesa:
-            return f"ERRORE: '{prodotto}' non e' nella lista"
+            return f"ERRORE: '{prodotto}' non è nella lista"
 
         lista_spesa.remove(prodotto)
         return f"OK: '{prodotto}' rimosso dalla lista"
@@ -105,7 +90,6 @@ def elabora_comando(messaggio, lista_spesa):
         if len(lista_spesa) == 0:
             return "Lista vuota"
 
-        # Unisco tutti i prodotti con una virgola e uno spazio
         return "Lista: " + ", ".join(lista_spesa)
 
     else:

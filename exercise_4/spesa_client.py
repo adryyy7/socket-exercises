@@ -19,15 +19,11 @@ spiega i comandi disponibili. La sessione continua normalmente.
 Terminazione: il client invia "QUIT". Il server risponde "CIAO" e chiude
 la connessione. E' sempre il client a iniziare la terminazione.
 
-Autore   : [Il tuo nome]
-Data     : Maggio 2026
-Versione : 1.0
-
 Nota: avviare spesa_server.py in un terminale prima di avviare questo client
 in un altro terminale.
 """
 
-import socket   # modulo della libreria standard per la programmazione di rete
+import socket   
 
 
 HOST = "127.0.0.1"
@@ -62,7 +58,6 @@ def avvia():
             # Invio il comando al server
             sock.sendall(comando.encode("utf-8"))
 
-            # Aspetto la risposta del server
             dati = sock.recv(1024)
 
             if not dati:

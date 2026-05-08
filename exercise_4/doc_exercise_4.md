@@ -11,14 +11,14 @@ domande sul protocollo in un blocco commenti in cima ad ogni file.
 Il client puo' aggiungere prodotti, rimuoverli e vedere la lista completa.
 Il server mantiene la lista in memoria e risponde ad ogni comando.
 
-Ho scelto questa idea perche' e' un caso d'uso reale e quotidiano:
-applicazioni come Google Keep o i promemoria condivisi funzionano
-esattamente cosi', un client manda comandi a un server che mantiene
+Ho scelto questa idea perché è un caso d'uso reale e quotidiano:
+applicazioni come promemoria condivisi funzionano
+esattamente in questo modo, un client manda comandi a un server che mantiene
 lo stato aggiornato.
 
 ## Risposte alle domande del protocollo
 
-### 1. TCP o UDP, e perche'?
+### 1. TCP o UDP, e perché?
 
 Ho scelto TCP.
 
@@ -53,15 +53,15 @@ Ho scelto il testo semplice (plain text).
 ### 3. Cosa succede con un messaggio non valido?
 
 La funzione elabora_comando() controlla la prima parola del messaggio.
-Se non e' AGGIUNGI, RIMUOVI, MOSTRA o QUIT, il server risponde:
+Se non è AGGIUNGI, RIMUOVI, MOSTRA o QUIT, il server risponde:
 ERRORE: comando non riconosciuto. Usa: AGGIUNGI, RIMUOVI, MOSTRA, QUIT
 
 La sessione continua normalmente. Il server non crasha mai.
 
 Vengono gestiti anche i casi in cui manca il nome del prodotto:
-AGGIUNGI       ->  ERRORE: specifica il prodotto. Esempio: AGGIUNGI latte
-RIMUOVI        ->  ERRORE: specifica il prodotto. Esempio: RIMUOVI latte
-RIMUOVI patate ->  ERRORE: 'patate' non e' nella lista
+AGGIUNGI ->  ERRORE: specifica il prodotto. Esempio: AGGIUNGI latte
+RIMUOVI ->  ERRORE: specifica il prodotto. Esempio: RIMUOVI latte
+RIMUOVI patate ->  ERRORE: 'patate' non è nella lista
 
 ### 4. Condizione di terminazione, e chi la inizia?
 
@@ -72,7 +72,7 @@ la disconnessione.
 
 ## Dove viene salvata la lista?
 
-La lista e' una variabile Python di tipo list dichiarata dentro
+La lista è una variabile Python di tipo list dichiarata dentro
 gestisci_client(). Questo significa:
 
 - La lista persiste per tutta la durata della connessione di un client.
@@ -90,7 +90,7 @@ gestisci_client(). Questo significa:
 [Client] > RIMUOVI pane
 [Client] OK: 'pane' rimosso dalla lista
 [Client] > RIMUOVI patate
-[Client] ERRORE: 'patate' non e' nella lista
+[Client] ERRORE: 'patate' non è nella lista
 [Client] > ciao
 [Client] ERRORE: comando non riconosciuto. Usa: AGGIUNGI, RIMUOVI, MOSTRA, QUIT
 [Client] > QUIT

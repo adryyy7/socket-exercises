@@ -4,7 +4,7 @@
 
 Simulare una rete inaffidabile aggiungendo la costante DROP_PROBABILITY
 al server UDP. Prima di ogni PONG estrarre un numero casuale con
-random.random(): se e' inferiore a DROP_PROBABILITY, non chiamare sendto()
+random.random(): se è inferiore a DROP_PROBABILITY, non chiamare sendto()
 e stampare "[Server] Dropped reply (simulated loss)".
 Sul client assicurarsi che il gestore del timeout stampi un messaggio
 significativo e che il client continui al ping successivo senza crashare.
@@ -14,7 +14,7 @@ significativo e che il client continui al ping successivo senza crashare.
 ### La costante DROP_PROBABILITY
 
 ```python
-DROP_PROBABILITY = 0.3   # 30% di probabilita' di perdere una risposta
+DROP_PROBABILITY = 0.3   # 30% di probabilità di perdere una risposta
 ```
 
 ### Il controllo prima di sendto()
@@ -35,14 +35,14 @@ circa il 30% delle risposte viene scartato.
 
 ## Modifiche al client
 
-### Perche' il timeout diventa fondamentale
+### Perché il timeout diventa fondamentale
 
 Su localhost i pacchetti UDP non si perdono quasi mai.
 La simulazione li forza a perdersi artificialmente.
 
 Senza settimeout():
 [Client] Invio #3
-il programma si blocca qui per sempre in attesa di una risposta che non arrivera'
+il programma si blocca qui per sempre in attesa di una risposta che non arriverà
 
 Con settimeout(2.0):
 ```python
@@ -73,6 +73,3 @@ Ho aggiunto i contatori ricevuti e persi per mostrare le statistiche:
 python exercise_3/udp_server.py   # Terminale 1
 python exercise_3/udp_client.py   # Terminale 2
 ```
-
-Prova a cambiare DROP_PROBABILITY a 0.0 (zero perdite) o 0.9 (90% perdite)
-e osserva come cambia l'output del client.

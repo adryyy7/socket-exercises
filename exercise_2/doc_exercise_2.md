@@ -2,23 +2,21 @@
 
 ## Cosa chiedeva l'esercizio
 
-Modificare il server TCP in modo che possa servire piu' client uno dopo
+Modificare il server TCP in modo che possa servire più client uno dopo
 l'altro (sequenziale, non parallelo): dopo che un client si disconnette,
 il server deve tornare a chiamare accept() e aspettare il prossimo.
 Aggiungere un flag server_running o un numero massimo di client in modo
 che il server abbia un modo pulito per fermarsi.
 
-Bonus: usare il modulo threading per gestire piu' client contemporaneamente.
-
 ## Il problema del server originale
 
-Il server originale gestiva esattamente un client e poi usciva, perche'
+Il server originale gestiva esattamente un client e poi usciva, perché
 accept() veniva chiamato una sola volta fuori da qualsiasi loop:
 
 ```python
-conn, addr = server_sock.accept()   # chiamato una volta sola
+conn, addr = server_sock.accept()   
 gestisci_client(conn)
-server_sock.close()                 # il server esce
+server_sock.close()           
 ```
 
 ## La mia soluzione: loop con flag e MAX_CLIENTS
@@ -37,14 +35,14 @@ while server_running and clients_serviti < MAX_CLIENTS:
     # il loop torna automaticamente ad accept()
 ```
 
-Avere due meccanismi e' utile:
+Avere due meccanismi è utile:
 - server_running permette di fermare il server dall'esterno in futuro
 - MAX_CLIENTS garantisce comunque un limite massimo come sicurezza
 
 ## Bonus threading
 
-Senza threading, se il client A e' connesso, il client B deve aspettare
-che A si disconnetta prima di potersi connettere. Il flusso e':
+Senza threading, se il client A è connesso, il client B deve aspettare
+che A si disconnetta prima di potersi connettere. Il flusso è:
 accept() -> gestisci A -> A si disconnette -> accept() -> gestisci B
 
 Con threading ogni client viene smistato su un thread separato e
@@ -63,18 +61,7 @@ Thread A gestisce A          Thread B gestisce B
 
 daemon = True significa che se il programma principale si ferma,
 tutti i thread vengono terminati automaticamente. Senza di esso
-il programma resterebbe aperto finche' tutti i thread non finiscono.
-
-Il codice per il threading e' presente nel file come commento,
-pronto per essere attivato.
-
-## Confronto tra le due versioni
-
-| Caratteristica | Sequenziale | Con threading |
-|---|---|---|
-| Client contemporanei | No, uno alla volta | Si' |
-| Complessita' | Semplice | Maggiore |
-| Rischio conflitti dati | Nessuno | Possibile |
+il programma resterebbe aperto finché tutti i thread non finiscono.
 
 ## File modificati
 

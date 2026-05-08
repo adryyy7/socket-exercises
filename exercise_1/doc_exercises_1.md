@@ -21,7 +21,7 @@ while True:
     if messaggio == "PING":
         contatore_ping = contatore_ping + 1
     risposta = scegli_risposta(messaggio, contatore_ping)
-    # risposta sara': "PONG #1", "PONG #2", "PONG #3" ...
+    # risposta sarà: "PONG #1", "PONG #2", "PONG #3" ...
 ```
 
 ## Risposte alle domande dell'esercizio
@@ -32,14 +32,14 @@ La variabile contatore_ping e' dichiarata all'interno della funzione
 servi_sempre(), appena prima del loop while True.
 Vive nella memoria RAM del processo Python del server.
 
-### Cosa succede al contatore se si riavvia il server mentre il client e' ancora in esecuzione?
+### Cosa succede al contatore se si riavvia il server mentre il client è ancora in esecuzione?
 
 Se il server viene riavviato, contatore_ping viene ricreata da zero
-perche' Python cancella tutte le variabili locali quando un programma
+perché Python cancella tutte le variabili locali quando un programma
 si chiude e la memoria RAM usata dal processo viene liberata.
 
-Questo significa che il client vedra' improvvisamente la risposta
-tornare a "PONG #1" anche se era arrivato a "PONG #5", perche'
+Questo significa che il client vedrà improvvisamente la risposta
+tornare a "PONG #1" anche se era arrivato a "PONG #5", perché
 il nuovo server non sa nulla di quello che era successo prima.
 
 Per rendere il contatore persistente tra i riavvii bisognerebbe
@@ -47,7 +47,7 @@ salvarlo su un file o un database.
 
 ## Modifica al client
 
-Non erano necessarie modifiche strutturali: il client stampava gia'
+Non erano necessarie modifiche strutturali: il client stampava già
 la risposta completa. Ho aggiunto un commento per chiarire che
 l'output mostra ora il numero del contatore.
 

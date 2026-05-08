@@ -1,8 +1,8 @@
-exercise_0/doc_exercise_0.mdmarkdown# Esercizio 0 - Riscrittura del codice con le funzioni
+# Esercizio 0 - Riscrittura del codice con le funzioni
 
 ## Cosa chiedeva l'esercizio
 
-Modificare il codice proposto usando le funzioni il piu' possibile.
+Modificare il codice proposto utilizzando le funzioni il più possibile.
 Ottimizzare il codice spiegando la logica di ogni modifica.
 
 ## Problema del codice originale
@@ -20,8 +20,7 @@ due problemi concreti:
 
 ### 1. Suddivisione in funzioni con un compito solo
 
-Ho diviso ogni file in funzioni piccole, ognuna con una responsabilita'
-precisa:
+Ho diviso ogni file in funzioni piccole, ognuna con un compito preciso:
 
 | Funzione | Compito |
 |---|---|
@@ -31,44 +30,63 @@ precisa:
 | gestisci_client() | Gestisce il loop di comunicazione |
 | avvia() | Chiama tutto nell'ordine giusto |
 
-Il vantaggio concreto e' che se voglio cambiare le risposte del server
-tocco solo scegli_risposta(). Se voglio cambiare come si crea il socket
-tocco solo crea_socket_server(). Le funzioni non si influenzano.
+Il vantaggio concreto è che se voglio cambiare le risposte del server
+modifico solo la funzione scegli_risposta(). Se voglio cambiare come si crea il socket
+modifico solo crea_socket_server(). Le funzioni non si influenzano.
 
 ### 2. Aggiunta del blocco try/finally
 
 Codice originale:
-```pythonconn.close()
+
+```python
+conn.close()
 server_sock.close()
+```
+
 Se si verificava un errore prima di queste righe, i socket non venivano
 mai chiusi. Il sistema operativo teneva la porta occupata anche dopo
-la fine del programma. Questo si chiama resource leak.
+la fine del programma. Questo si chiama *resource leak*.
 
 Codice nuovo:
-```pythontry:
-conn, indirizzo = aspetta_client(server_sock)
-gestisci_client(conn)
+
+```python
+try:
+    conn, indirizzo = aspetta_client(server_sock)
+    gestisci_client(conn)
 finally:
-server_sock.close()
-Il blocco finally garantisce che server_sock.close() venga chiamato
+    server_sock.close()
+```
+
+Il blocco `finally` garantisce che `server_sock.close()` venga chiamato
 sempre, anche se si verifica un errore.
+
+---
 
 ### 3. Funzione separata per la logica delle risposte
 
 Codice originale (dentro il loop):
-```pythonif message == "PING":
-reply = "PONG"
+
+```python
+if message == "PING":
+    reply = "PONG"
 else:
-reply = f"Unknown message: {message!r}"
+    reply = f"Unknown message: {message!r}"
+```
 
 Codice nuovo:
-```pythondef scegli_risposta(messaggio):
-if messaggio == "PING":
-return "PONG"
-else:
-return f"Messaggio sconosciuto: {messaggio!r}"
-Separare la logica del protocollo dal codice di rete e' una buona
+
+```python
+def scegli_risposta(messaggio):
+    if messaggio == "PING":
+        return "PONG"
+    else:
+        return f"Messaggio sconosciuto: {messaggio!r}"
+```
+
+Separare la logica del protocollo dal codice di rete è una buona
 pratica: se il protocollo cambia, non tocco il codice di rete.
+
+---
 
 ## Riepilogo modifiche per file
 
@@ -78,6 +96,8 @@ pratica: se il protocollo cambia, non tocco il codice di rete.
 | tcp_client.py | 3 funzioni + try/finally |
 | udp_server.py | 3 funzioni + try/finally |
 | udp_client.py | 3 funzioni + try/finally |
+
+---
 
 ## Come eseguire
 

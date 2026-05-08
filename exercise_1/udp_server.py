@@ -1,24 +1,14 @@
 """
-UDP Server - Ping Pong con contatore messaggi (Esercizio 1)
+UDP Client - Ping Pong con contatore messaggi (Esercizio 1)
 
-Estende il server UDP dell'esercizio 0 aggiungendo un contatore
-dei datagrammi PING ricevuti. Ogni risposta PONG include il contatore,
-ad esempio "PONG #3".
+Aggiorna il client dell'esercizio 0 per stampare la stringa di risposta
+completa, in modo che il contatore incluso dal server sia visibile.
 
-Autore   : [Il tuo nome]
-Data     : Maggio 2026
-Versione : 1.0
-
-Modifica rispetto all'esercizio 0:
-    - Aggiunta la variabile contatore_ping prima del loop
-    - Il contatore viene incrementato ad ogni PING ricevuto
-    - La risposta diventa "PONG #N" dove N e' il valore del contatore
-
-Nota: avviare udp_server.py in un terminale prima di avviare udp_client.py
+Nota: avviare udp_server.py in un terminale prima di avviare questo client
 in un altro terminale.
 """
 
-import socket   # modulo della libreria standard per la programmazione di rete
+import socket   
 
 
 HOST = "127.0.0.1"
@@ -40,8 +30,6 @@ def scegli_risposta(messaggio, contatore):
     """
 
     if messaggio == "PING":
-        # Includo il contatore nella risposta usando una f-string
-        # Esempio: se contatore vale 3, rispondo "PONG #3"
         return f"PONG #{contatore}"
     else:
         return f"Sconosciuto: {messaggio!r}"
@@ -53,9 +41,6 @@ def servi_sempre(sock):
     Il contatore parte da 0 e aumenta di 1 ad ogni PING.
     """
 
-    # Dichiaro il contatore prima del loop.
-    # Vive in memoria RAM finche' il server e' in esecuzione.
-    # Se il server viene riavviato, il contatore riparte da 0.
     contatore_ping = 0
 
     while True:
@@ -69,7 +54,6 @@ def servi_sempre(sock):
             # Incremento il contatore di 1 ad ogni PING ricevuto
             contatore_ping = contatore_ping + 1
 
-        # Passo il contatore alla funzione che costruisce la risposta
         risposta = scegli_risposta(messaggio, contatore_ping)
 
         sock.sendto(risposta.encode("utf-8"), indirizzo_client)
