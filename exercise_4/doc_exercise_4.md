@@ -3,8 +3,7 @@
 ## Cosa chiedeva l'esercizio
 
 Scegliere una qualsiasi interazione reale tra due parti e implementarla
-come programma socket. Prima di scrivere il codice rispondere a quattro
-domande sul protocollo in un blocco commenti in cima ad ogni file.
+come programma socket.
 
 ## La mia scelta: una lista della spesa condivisa
 
